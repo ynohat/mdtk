@@ -1,0 +1,48 @@
+"use strict";
+
+const debug = require("debug")("mdtk/packager/typora");
+
+const path = require("path");
+const fs = require("fs");
+
+const TYPORA_PATH = path.join(
+    __dirname,
+    "typora",
+    "themes"
+);
+
+const TYPORA_DEFAULTS = {
+    theme: "pixyll"
+};
+
+module.exports = function (body, deps, options) {
+
+    debug(TYPORA_PATH);
+
+    const opts = Object.assign({}, TYPORA_DEFAULTS, options.typora);
+    const typora = deps.root(TYPORA_PATH, "typora");
+
+    var assetsDir = path.join(TYPORA_PATH, opts.theme);
+    debug("assetsDir: %s", assetsDir);
+    if (fs.existsSync(assetsDir)) {
+        fs.readdirSync(assetsDir).forEach(f => {
+            typora(`${opts.theme}/${f}`);
+        });
+    }
+
+
+    return `
+    <html lang="${options.lang || "en-US"}">
+        <head>
+            <title>${options.title || "MDTK Document"}</title>
+
+            <meta name="generator" content="mdtk">
+            <meta name="packager" content="mdtk-typora">
+            <link rel="stylesheet" href="${typora(opts.theme+".css")}">
+        </head>
+        <body>
+            ${body}
+        </body>
+    </html>
+    `;
+};

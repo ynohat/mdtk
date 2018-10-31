@@ -1,0 +1,4 @@
+html: false
+output: ../../output/test.html
+include:
+  - markdown

@@ -1,0 +1,7 @@
+output: output/index.html
+include:
+  - .
+vars:
+  presenter:
+    name: Anthony Hogg
+    email: anthony@hogg.fr
