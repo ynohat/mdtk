@@ -80,7 +80,7 @@ class Resolver {
             if (absHref) {
                 var contents = fs.readFileSync(absHref, "utf-8");
                 contents.replace(/url\(([^)]+)\)/g, (_, ref) => {
-                    return this.resolve(token.file, ref);
+                    return this.resolve(absHref, ref);
                 });
             }
         }
