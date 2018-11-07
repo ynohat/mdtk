@@ -31,8 +31,8 @@ function processor(options, deps) {
         }
     });
 
-    parser.use(require("markdown-it-div"));
     parser.use(require("markdown-it-attrs"));
+
     if (options.plantuml) {
         parser.use(require("markdown-it-plantuml"));
     }

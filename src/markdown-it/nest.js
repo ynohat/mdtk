@@ -25,10 +25,11 @@ module.exports = function nest(md, options) {
     debug("init");
 
     md.block.ruler.disable("hr");
-    md.core.ruler.push("mdtk_section_nest", mdtk_nest);
+    md.block.ruler.before("fence", "mdtk_nest_explicit", mdtk_nest_explicit);
+    md.core.ruler.push("mdtk_nest_hr", mdtk_nest_hr);
 };
 
-function mdtk_nest(state) {
+function mdtk_nest_hr(state) {
     var tree = new Tree();
 
     tree.push("section.l1");
@@ -63,6 +64,42 @@ function mdtk_nest(state) {
     state.tokens = flatten(tree.root);
 }
 
+
+function mdtk_nest_explicit(state, startLine, endLine, silent) {
+    var marker, len, params, nextLine, mem, token, markup,
+        haveEndMarker = false,
+        pos = state.bMarks[startLine] + state.tShift[startLine],
+        max = state.eMarks[startLine];
+
+    // if it's indented more than 3 spaces, it should be a code block
+    if (state.sCount[startLine] - state.blkIndent >= 4) { return false; }
+
+    if (pos + 3 > max) { return false; }
+
+    var marker = state.src.charCodeAt(pos);
+
+    if (marker === 0x2b /* + */ || marker === 0x2d /* - */) {
+        let cls = "";
+        let params = state.src.substring(pos + 1, max).split(/\s+/).shift();
+        let nesting = 1;
+        if (marker === 0x2d) {
+            nesting = -1;
+        }
+        if (!params.length) {
+            return false;
+        }
+        let token = state.push("div", "div", nesting);
+        if (nesting === 1) {
+            params.split(".").filter(cls => !!cls).forEach(cls => {
+                token.attrSet("class", cls)
+            });
+        }
+        state.line++;
+        return true;
+    }
+}
+
+
 /**
  * Tree representing the nesting. Each node has a name and children, each of
  * which can be a branch or a leaf. Leaves are integers and refer to a token
@@ -86,7 +123,7 @@ class Tree {
     }
 
     push(name) {
-        let branch = {name: name, children: []};
+        let branch = { name: name, children: [] };
         if (this.depth) {
             this.top.children.push(branch);
         }
