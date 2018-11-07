@@ -253,14 +253,14 @@ More details will be added as this feature stabilizes.
 
 ## TODO
 
-[ ] `@css`: resolve `@import`
-[ ] `@xxx`: better argument parsing (allow commas)
-[ ] `tests`: fix the tests and improve coverage
-[ ] `packager`: make the highlight.js theme configurable
-[ ] `fences`: local plantuml server
-[ ] `fences`: vega & vega-lite
-[ ] `documentation`: create guides for authoring different doc types
-[ ] `documentation`: improve the theme of the example
-[ ] `documentation`: include examples for each packager
+- [ ] `@css`: resolve `@import`
+- [ ] `@xxx`: better argument parsing (allow commas)
+- [ ] `tests`: fix the tests and improve coverage
+- [ ] `packager`: make the highlight.js theme configurable
+- [ ] `fences`: local plantuml server
+- [ ] `fences`: vega & vega-lite
+- [ ] `documentation`: create guides for authoring different doc types
+- [ ] `documentation`: improve the theme of the example
+- [ ] `documentation`: include examples for each packager
 
 And many more things.
