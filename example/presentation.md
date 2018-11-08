@@ -9,7 +9,6 @@
 
 ---
 
-@meta(section, Introduction)
 @include(sections/about-me.md)
 
 ---
