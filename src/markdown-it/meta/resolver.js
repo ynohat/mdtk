@@ -108,11 +108,15 @@ class Resolver {
     }
 
     resolve(fragmentPath, ref) {
-        let absPath = this.normalize(fragmentPath, ref);
-
-        if (!absPath) {
-            return absPath;
+        if (IS_URL.test(ref)) {
+            return ref;
         }
+
+        if (path.isAbsolute(ref)) {
+            return ref;
+        }
+
+        let absPath = this.normalize(fragmentPath, ref);
 
         // We want a URL that is relative to the include path that
         // contains the asset.
