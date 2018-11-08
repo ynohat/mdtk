@@ -1,6 +1,8 @@
-# Visualizations
+# Vega & Vega Lite
 
-+columns
+===
+
+## Vega Lite
 
 @startvegalite
 {
@@ -22,6 +24,9 @@
 }
 @endvegalite
 
+===
+
+## Vega
 
 @startvega
 {
@@ -156,6 +161,3 @@
   ]
 }
 @endvega
-
-
--columns

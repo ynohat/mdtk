@@ -7,8 +7,6 @@
 # MDTK
 ## MarkDown ToolKit
 
-This is cool
-
 ---
 
 @meta(section, Introduction)
@@ -21,3 +19,7 @@ This is cool
 ---
 
 @include(sections/vega.md)
+
+---
+
+@include(sections/plantuml.md)

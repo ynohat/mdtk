@@ -1,22 +1,29 @@
 # MarkDown ToolKit (mdtk)
 
-## Table of Contents
+<!--ts-->
+   * [MarkDown ToolKit (mdtk)](#markdown-toolkit-mdtk)
+      * [Overview](#overview)
+      * [Requirements](#requirements)
+      * [Usage](#usage)
+         * [Install](#install)
+         * [Command Line](#command-line)
+         * [Configuration](#configuration)
+      * [Markdown](#markdown)
+         * [Variable interpolation](#variable-interpolation)
+         * [at-rules](#at-rules)
+         * [Implicit nesting](#implicit-nesting)
+         * [Explicit nesting](#explicit-nesting)
+         * [Code Fences](#code-fences)
+         * [Plant UML](#plant-uml)
+         * [Vega Visualizations](#vega-visualizations)
+      * [Packagers](#packagers)
+      * [Best Practices](#best-practices)
+      * [TODO](#todo)
+      * [Troubleshooting](#troubleshooting)
 
-* [Overview](#overview)
-* [Requirements](#requirements)
-* [Usage](#usage)
-    * [Install](#install)
-    * [Command Line](#command-line)
-    * [Configuration](#configuration)
-* [Markdown](#markdown)
-    * [Variable interpolation](#variable-interpolation)
-    * [at-rules](#at-rules)
-    * [Implicit nesting](#implicit-nesting)
-    * [Explicit nesting](#explicit-nesting)
-    * [Code Fences](#code-fences)
-* [Packagers](#packagers)
-* [Best Practices](#best-practices)
-* [TODO](#todo)
+<!-- Added by: ahogg, at:  -->
+
+<!--te-->
 
 ## Overview
 
@@ -32,6 +39,7 @@ It supports:
 - containers
 - adding attributes and classes to elements
 - syntax highlighting
+- vega visualizations
 
 A complete document is built using a packager, among which `revealjs` and `typora`.
 
@@ -229,6 +237,37 @@ Syntax highlighting is performed using `highlight.js`.
 
 Generating plantuml diagrams is supported using `markdown-it-plantuml`.
 
+```
+@startuml
+...
+@enduml
+```
+
+### Vega Visualizations
+
+You can embed `vega`/`vega-lite` visualizations into your documents:
+
+```
+@startvega
+...
+@endvega
+
+@startvegalite
+...
+@endvegalite
+```
+
+If your `spec` references a data url, `mdtk` will resolve it using the same
+rules as the `@include` [at-rule](#at-rules).
+
+> Local data files will NOT be copied to the output directory (for now), because
+> rendering is done offline and the SVG output is directly embedded in the final
+> HTML document.
+> I can see two good reasons for including the data in the output directory like
+> all other assets:
+> - to support online rendering (with `vega` signals etc...)
+> - to support adding a "Download data" link to the SVG caption
+
 ## Packagers
 
 `mdtk` performs two main tasks:
@@ -257,8 +296,8 @@ More details will be added as this feature stabilizes.
 - [ ] `@xxx`: better argument parsing (allow commas)
 - [ ] `tests`: fix the tests and improve coverage
 - [ ] `packager`: make the highlight.js theme configurable
-- [ ] `fences`: local plantuml server
-- [ ] `fences`: vega & vega-lite
+- [ ] `ext`: local plantuml server
+- [x] `ext`: vega & vega-lite
 - [ ] `documentation`: create guides for authoring different doc types
 - [ ] `documentation`: improve the theme of the example
 - [ ] `documentation`: include examples for each packager
