@@ -69,7 +69,6 @@ function resolve(token, resolver) {
     // picked up between parse and render in ../processor
     token.promise = token.render(token.spec)
         .then(svg => {
-            console.log(svg);
             token.content = svg;
         });
 }
