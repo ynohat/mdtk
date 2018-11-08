@@ -264,3 +264,13 @@ More details will be added as this feature stabilizes.
 - [ ] `documentation`: include examples for each packager
 
 And many more things.
+
+## Troubleshooting
+
+- `npm install` error output when building `canvas` module
+
+`node-gyp` expects python 2. If python 3 is your default version, you can run:
+
+```bash
+npm install --python=python2.7 mdtk
+```
