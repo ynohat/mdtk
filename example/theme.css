@@ -1,3 +1,8 @@
 .reveal h1 {
     font-size: 48pt;
 }
+
+.reveal .columns {
+    display: flex;
+    flex-direction: row;
+}

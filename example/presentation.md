@@ -20,5 +20,4 @@ This is cool
 
 ---
 
-@meta(section, Why we need mdtk)
-
+@include(sections/vega.md)

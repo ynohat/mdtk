@@ -50,6 +50,8 @@ class Resolver {
             this.resolveLinkToken(token);
         } else if (token.type === "script_open") {
             this.resolveScriptToken(token);
+        } else if (token.resolve && token.resolve.call) {
+            token.resolve(token, this);
         }
         this.resolveKnownAttributes(token);
     }

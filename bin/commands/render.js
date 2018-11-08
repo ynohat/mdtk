@@ -41,8 +41,8 @@ exports.handler = async function (argv) {
     const processor = require("../../src/processor")(argv, deps);
     const packager = require("../../src/packager");
 
-    var html = processor.render(markdown);
-    var pkg = packager.package(html, deps, argv || {});
+    var html = await processor.render(markdown);
+    var pkg = await packager.package(html, deps, argv || {});
     packager.write(pkg, argv);
 };
 

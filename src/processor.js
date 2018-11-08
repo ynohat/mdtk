@@ -36,6 +36,9 @@ function processor(options, deps) {
     if (options.plantuml) {
         parser.use(require("markdown-it-plantuml"));
     }
+    if (options.vega) {
+        parser.use(require("./markdown-it/vega"));
+    }
 
     parser.use(require("./markdown-it/handlebars"), {
         vars: options.vars,
@@ -55,13 +58,15 @@ function processor(options, deps) {
         deps: deps
     });
 
-    if (options.pretty) {
-        let _render = parser.render;
-        parser.render = (...args) => {
-            var html = _render.call(parser, ...args);
-            return require("html").prettyPrint(html) + "\n";
+    parser.render = async (md, env) => {
+        var tokens = parser.parse.call(parser, md, env);
+        await Promise.all(tokens.map(token => token.promise));
+        var html = parser.renderer.render(tokens, parser.options, env);
+        if (options.pretty) {
+            html = require("html").prettyPrint(html) + "\n";
         }
-    }
+        return html;
+    };
 
     return parser;
 }

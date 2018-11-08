@@ -80,6 +80,13 @@ module.exports = {
         type: "boolean",
         description: "Enable plantuml blocks (@startuml...@enduml)"
     },
+    vega: {
+        group: "Syntax",
+        global: true,
+        default: true,
+        type: "boolean",
+        description: "Enable vega/vega-lite blocks (@startvega[lite]...@endvega[lite])"
+    },
     pretty: {
         group: "Output",
         global: true,

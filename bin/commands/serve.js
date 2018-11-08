@@ -46,7 +46,7 @@ exports.handler = async function(argv) {
 async function watch(argv, render) {
     debug("watch");
     const path = require("path");
-    render(argv);
+    await render(argv);
     require('chokidar').watch(
         [argv.include], {
             ignored: [
@@ -55,8 +55,8 @@ async function watch(argv, render) {
             ],
             ignoreInitial: true
         }
-    ).on('all', (event, f) => {
+    ).on('all', async (event, f) => {
         debug("watch", event, f);
-        render(argv);
+        await render(argv);
     });
 }

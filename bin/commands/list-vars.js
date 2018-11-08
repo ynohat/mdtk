@@ -34,7 +34,7 @@ exports.handler = async function (argv) {
     var requestedVars = {};
     argv.vars = VarProxy(argv.vars || {}, requestedVars);
     var processor = require("../../src/processor")(argv, deps);
-    processor.parse(markdown);
+    await processor.parse(markdown);
 
     if (argv.format === "json") {
         console.log(JSON.stringify(requestedVars, null, "  "));
