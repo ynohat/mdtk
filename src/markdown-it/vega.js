@@ -55,12 +55,20 @@ module.exports = function vega(md, options) {
 // very end by meta/resolver.
 // This is quite hacky, we certainly need a better approach.
 function resolve(token, resolver) {
-    if (token.spec && Array.isArray(token.spec.data)) {
-        token.spec.data.forEach(data => {
-            if (data.url) {
-                data.url = resolver.normalize(token.file, data.url);
-            }
-        });
+    if (token.spec) {
+        function walk(spec) {
+            Object.keys(spec)
+                .forEach(k => {
+                    let v = spec[k];
+                    if (k === "url") {
+                        spec[k] = resolver.normalize(token.file, v);
+                        debug(spec[k]);
+                    } else if (typeof v === "object") {
+                        walk(v);
+                    }
+                });
+        }
+        walk(token.spec);
     }
 
     // Now that we've normalized all the data urls, we can

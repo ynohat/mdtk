@@ -161,3 +161,43 @@
   ]
 }
 @endvega
+
+===
+
+## HARrrrr
+
+@startvegalite
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v2.json",
+  "width": 800,
+  "height": 600,
+  "layer": [
+    {
+      "data": {
+        "url": "data/har.json",
+        "format": {
+          "type": "json",
+          "property": "log.entries",
+          "parse": {"startedDateTime": "date"}
+        }
+      },
+      "transform": [
+        {
+          "calculate": "time(datum.startedDateTime) + datum.time",
+          "as": "endedDateTime"
+        }
+      ],
+      "mark": "bar",
+      "encoding": {
+        "x": {"field": "startedDateTime", "type": "temporal"},
+        "x2": {"field": "endedDateTime", "type": "temporal"},
+        "y": {
+          "field": "request.url",
+          "type": "nominal",
+          "sort": {"field": "startedDateTime"}
+        }
+      }
+    }
+  ]
+}
+@endvegalite
