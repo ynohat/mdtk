@@ -23,19 +23,6 @@
 
 @include(sections/plantuml.md)
 
+---
 
-+row
-
-+column
-
-## Left
-
--column
-
-+column
-
-## Right
-
--column
-
--row
+@include(sections/layout.md)

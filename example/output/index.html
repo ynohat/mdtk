@@ -197,16 +197,16 @@
                             <path class="background" d="M0,0h500v160h-500Z" style="fill: none;"></path>
                             <g>
                                 <g class="mark-rect role-mark">
-                                    <path d="M107,136h119v1h-119Z" style="fill: black;"></path>
-                                    <path d="M110,88h160v1h-160Z" style="fill: black;"></path>
-                                    <path d="M82,152h136v1h-136Z" style="fill: black;"></path>
-                                    <path d="M124,104h128v1h-128Z" style="fill: black;"></path>
-                                    <path d="M192,8h179v1h-179Z" style="fill: black;"></path>
-                                    <path d="M136,40h183v1h-183Z" style="fill: black;"></path>
-                                    <path d="M119,56h208v1h-208Z" style="fill: black;"></path>
-                                    <path d="M147,72h113v1h-113Z" style="fill: black;"></path>
-                                    <path d="M92,120h159v1h-159Z" style="fill: black;"></path>
-                                    <path d="M188,24h176v1h-176Z" style="fill: black;"></path>
+                                    <path d="M111,136h118v1h-118Z" style="fill: black;"></path>
+                                    <path d="M110,88h162v1h-162Z" style="fill: black;"></path>
+                                    <path d="M78,152h141v1h-141Z" style="fill: black;"></path>
+                                    <path d="M125,104h128v1h-128Z" style="fill: black;"></path>
+                                    <path d="M190,8h184v1h-184Z" style="fill: black;"></path>
+                                    <path d="M149,40h168v1h-168Z" style="fill: black;"></path>
+                                    <path d="M123,56h210v1h-210Z" style="fill: black;"></path>
+                                    <path d="M150,72h112v1h-112Z" style="fill: black;"></path>
+                                    <path d="M87,120h164v1h-164Z" style="fill: black;"></path>
+                                    <path d="M186,24h185v1h-185Z" style="fill: black;"></path>
                                 </g>
                                 <g class="mark-symbol role-mark">
                                     <path transform="translate(164,136)" d="M3.1622776601683795,0A3.1622776601683795,3.1622776601683795,0,1,1,-3.1622776601683795,0A3.1622776601683795,3.1622776601683795,0,1,1,3.1622776601683795,0"
@@ -626,18 +626,54 @@
 
             <img src="http://www.plantuml.com/plantuml/svg/SoWkIImgAStDuUBIqD9KqDMrKr1ooomgBb5mJ2x9BCiigLJYGXS0gmAgvk9oICrB0Ue50000"
             alt="uml diagram">
+        </section>
+    </section>
+    <section>
+        <section>
+            
+<h1>Layout</h1>
+
+        </section>
+        <section>
+            <h2>Two Columns</h2>
+
             <div class="row">
                 <div class="column">
                     
-<h2>Left</h2>
+<h3>Markdown</h3>
+
+<pre><code>
++row
+
++column.left
+
+Some content
+
+-column
+
++column.right
+
+Some content
+
+-column
+
+-row
+</code></pre>
 
                 </div>
                 <div class="column">
                     
-<h2>Right</h2>
+<h3>CSS</h3>
+
+<pre><code>.row {
+    display: flex;
+    flex-direction: row;
+}
+</code></pre>
 
                 </div>
             </div>
+            <p>Easy, right?</p>
         </section>
     </section>
 </section>

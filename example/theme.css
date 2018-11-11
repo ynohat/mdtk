@@ -2,7 +2,11 @@
     font-size: 48pt;
 }
 
-.reveal .columns {
+.reveal .row {
     display: flex;
     flex-direction: row;
+    justify-content: space-evenly; 
+}
+.reveal .row .column {
+    width: 40%;
 }
