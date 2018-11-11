@@ -75,7 +75,7 @@ function resolve(token, resolver) {
                             }
                         }
                         spec.url = resolver.normalize(token.file, spec.url);
-                    } else if (typeof v === "object") {
+                    } else if (v && typeof v === "object") {
                         walk(v);
                     }
                 });
