@@ -189,13 +189,41 @@
     },
     {
       "name": "har_url",
-      "value": "https://gist.githubusercontent.com/ynohat/2eeeaf3708a47a1a5769feebe9bddfc3/raw/44a6bf22e8cc0b6087b73e127fcc66158b9f2a92/www.google.com.har"
+      "value": "data/har.json"
     }
   ],
   "data": [
     {
+      "name": "har_pages",
+      "url": {
+        "signal": "har_url"
+      },
+      "source": "har",
+      "format": {
+        "type": "json",
+        "property": "log.pages",
+        "parse": {
+          "startedDateTime": "date"
+        }
+      },
+      "transform": [
+        {
+          "type": "formula",
+          "as": "pageLoadTime",
+          "expr": "datum.pageTimings.onLoad"
+        },
+        {
+          "type": "formula",
+          "as": "dclTime",
+          "expr": "datum.pageTimings.onContentLoad"
+        }
+      ]
+    },
+    {
       "name": "har_entries",
-      "url": {"signal": "har_url"},
+      "url": {
+        "signal": "har_url"
+      },
       "source": "har",
       "format": {
         "type": "json",
@@ -205,6 +233,37 @@
         }
       },
       "transform": [
+        {
+          "type": "lookup",
+          "from": "har_pages",
+          "key": "pageref",
+          "fields": [
+            "id"
+          ],
+          "as": [
+            "page"
+          ]
+        },
+        {
+          "type": "window",
+          "sort": {
+            "field": "startedDateTime",
+            "order": "ascending"
+          },
+          "ops": [
+            "first_value"
+          ],
+          "frame": [
+            null,
+            null
+          ],
+          "fields": [
+            "startedDateTime"
+          ],
+          "as": [
+            "firstDateTime"
+          ]
+        },
         {
           "type": "formula",
           "as": "domain",
@@ -222,72 +281,53 @@
         },
         {
           "type": "formula",
+          "as": "startTime",
+          "expr": "time(datum.startedDateTime) - time(datum.firstDateTime)"
+        },
+        {
+          "type": "formula",
           "as": "blockedEndTime",
-          "expr": "time(datum.startedDateTime) + max(datum.timings.blocked, 0)"
+          "expr": "time(datum.startedDateTime) + max(datum.timings.blocked, 0) - time(datum.firstDateTime)"
         },
         {
           "type": "formula",
           "as": "dnsEndTime",
-          "expr": "time(datum.blockedEndTime) + max(datum.timings.dns, 0)"
+          "expr": "time(datum.startedDateTime) + max(datum.timings.blocked, 0) + max(datum.timings.dns, 0) - time(datum.firstDateTime)"
         },
         {
           "type": "formula",
           "as": "connectEndTime",
-          "expr": "time(datum.dnsEndTime) + max(datum.timings.connect, 0)"
+          "expr": "time(datum.startedDateTime) + max(datum.timings.blocked, 0) + max(datum.timings.dns, 0) + max(datum.timings.connect, 0) - time(datum.firstDateTime)"
         },
         {
           "type": "formula",
           "as": "sslStartTime",
-          "expr": "time(datum.connectEndTime) - max(datum.timings.ssl, 0)"
+          "expr": "time(datum.startedDateTime) + max(datum.timings.blocked, 0) + max(datum.timings.dns, 0) + max(datum.timings.connect, 0) - max(datum.timings.ssl, 0) - time(datum.firstDateTime)"
         },
         {
           "type": "formula",
           "as": "sslEndTime",
-          "expr": "time(datum.connectEndTime)"
+          "expr": "datum.connectEndTime"
         },
         {
           "type": "formula",
           "as": "sendEndTime",
-          "expr": "time(datum.sslEndTime) + max(datum.timings.send, 0)"
+          "expr": "time(datum.startedDateTime) + max(datum.timings.blocked, 0) + max(datum.timings.dns, 0) + max(datum.timings.connect, 0) + max(datum.timings.send, 0) - time(datum.firstDateTime)"
         },
         {
           "type": "formula",
           "as": "waitEndTime",
-          "expr": "time(datum.sendEndTime) + max(datum.timings.wait, 0)"
+          "expr": "time(datum.startedDateTime) + max(datum.timings.blocked, 0) + max(datum.timings.dns, 0) + max(datum.timings.connect, 0) + max(datum.timings.send, 0) + max(datum.timings.wait, 0) - time(datum.firstDateTime)"
         },
         {
           "type": "formula",
           "as": "receiveEndTime",
-          "expr": "time(datum.waitEndTime) + max(datum.timings.receive, 0)"
+          "expr": "time(datum.startedDateTime) + max(datum.timings.blocked, 0) + max(datum.timings.dns, 0) + max(datum.timings.connect, 0) + max(datum.timings.send, 0) + max(datum.timings.wait, 0) + max(datum.timings.receive, 0) - time(datum.firstDateTime)"
         },
         {
           "type": "formula",
-          "as": "endDateTime",
-          "expr": "toDate(time(datum.startedDateTime) + max(datum.time, 0))"
-        }
-      ]
-    },
-    {
-      "name": "har_pages",
-      "url": {"signal": "har_url"},
-      "source": "har",
-      "format": {
-        "type": "json",
-        "property": "log.pages",
-        "parse": {
-          "startedDateTime": "date"
-        }
-      },
-      "transform": [
-        {
-          "type": "formula",
-          "as": "pageLoadTime",
-          "expr": "time(datum.startedDateTime) + datum.pageTimings.onLoad"
-        },
-        {
-          "type": "formula",
-          "as": "dclTime",
-          "expr": "time(datum.startedDateTime) + datum.pageTimings.onContentLoad"
+          "as": "endTime",
+          "expr": "time(datum.startedDateTime) + max(datum.time, 0) - time(datum.firstDateTime)"
         }
       ]
     }
@@ -295,17 +335,15 @@
   "scales": [
     {
       "name": "time",
-      "type": "time",
+      "type": "linear",
       "range": "width",
       "domain": {
         "data": "har_entries",
         "fields": [
-          "startedDateTime",
-          "endDateTime"
+          "endTime"
         ]
       },
-      "round": true,
-      "nice": "millisecond"
+      "zero": true
     },
     {
       "name": "url",
@@ -322,12 +360,7 @@
   "axes": [
     {
       "orient": "bottom",
-      "scale": "time",
-      "tickCount": {
-        "interval": "second",
-        "step": 1
-      },
-      "format": "%S.%L"
+      "scale": "time"
     },
     {
       "orient": "left",
@@ -345,7 +378,7 @@
         "enter": {
           "x": {
             "scale": "time",
-            "field": "startedDateTime"
+            "field": "startTime"
           },
           "x2": {
             "scale": "time",
@@ -581,7 +614,12 @@
             "scale": "time",
             "field": "dclTime"
           },
-          "height": {"field": {"group": "height"}, "offset": 8},
+          "height": {
+            "field": {
+              "group": "height"
+            },
+            "offset": 8
+          },
           "strokeWidth": {
             "value": 1
           },
@@ -598,8 +636,12 @@
       },
       "encode": {
         "enter": {
-          "text": {"value": "DCL"},
-          "angle": {"value": -90},
+          "text": {
+            "value": "DCL"
+          },
+          "angle": {
+            "value": -90
+          },
           "x": {
             "scale": "time",
             "field": "dclTime",
@@ -625,7 +667,12 @@
             "scale": "time",
             "field": "pageLoadTime"
           },
-          "height": {"field": {"group": "height"}, "offset": 8},
+          "height": {
+            "field": {
+              "group": "height"
+            },
+            "offset": 8
+          },
           "strokeWidth": {
             "value": 1
           },
@@ -642,8 +689,12 @@
       },
       "encode": {
         "enter": {
-          "text": {"value": "PLT"},
-          "angle": {"value": -90},
+          "text": {
+            "value": "PLT"
+          },
+          "angle": {
+            "value": -90
+          },
           "x": {
             "scale": "time",
             "field": "pageLoadTime",
