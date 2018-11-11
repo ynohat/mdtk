@@ -56,13 +56,25 @@ module.exports = function vega(md, options) {
 // This is quite hacky, we certainly need a better approach.
 function resolve(token, resolver) {
     if (token.spec) {
+        var signals = {};
         function walk(spec) {
             Object.keys(spec)
                 .forEach(k => {
                     let v = spec[k];
-                    if (k === "url") {
-                        spec[k] = resolver.normalize(token.file, v);
-                        debug(spec[k]);
+                    if (k === "signals") {
+                        v.forEach(signal => {
+                            signals[signal.name] = signal;
+                        });
+                    } else if (k === "url") {
+                        if (typeof v === "object") {
+                            if (v.signal && signals[v.signal]) {
+                                let signal = signals[v.signal];
+                                if (signal.value) {
+                                    spec.url = signal.value;
+                                }
+                            }
+                        }
+                        spec.url = resolver.normalize(token.file, spec.url);
                     } else if (typeof v === "object") {
                         walk(v);
                     }
