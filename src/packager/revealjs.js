@@ -13,7 +13,7 @@ const REVEALJS_DEFAULTS = {
     controls: true,
     progress: true,
     history: true,
-    center: true,
+    center: false,
     transition: 'slide', // none/fade/slide/convex/concave/zoom
     width: 1400,
     height: 900,
@@ -38,7 +38,8 @@ module.exports = function (body, deps, options) {
             <meta name="generator" content="mdtk">
             <meta name="packager" content="mdtk-revealjs">
             <meta name="revealjs-version" content="${REVEALJS_VERSION}">
-            <link rel="stylesheet" href="${revealjs("css/reveal.css")}">
+            <link rel="stylesheet" media="screen" href="${revealjs("css/reveal.css")}">
+            <link rel="stylesheet" media="print" href="${revealjs("css/print/pdf.css")}">
             <link rel="stylesheet" href="${revealjs("css/theme/simple.css")}">
             <link rel="stylesheet" href="${revealjs("lib/css/zenburn.css")}">
         </head>
@@ -71,7 +72,7 @@ module.exports = function (body, deps, options) {
                     content: attr(data-section);
                     font-size: 0.7em;
                     padding: 5px 10px;
-                    border-bottom: 0.5px solid #fffc;
+                    border-bottom: 0.5px solid grey;
                 }
                 .reveal.overview #section-header,
                 .reveal #section-header:empty {
@@ -102,8 +103,12 @@ module.exports = function (body, deps, options) {
                     })
 
                 function updateSectionHeader() {
-                    var sectionTitle = Reveal.getCurrentSlide().getAttribute("data-header");
-                    sectionHeader.innerText = sectionTitle;
+                    try {
+                        var sectionTitle = Reveal.getCurrentSlide().getAttribute("data-header");
+                        sectionHeader.innerText = sectionTitle;
+                    } catch (e) {
+                        console.error(e);
+                    }
                 }
 
                 Reveal.addEventListener('slidechanged', updateSectionHeader);
