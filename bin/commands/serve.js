@@ -13,7 +13,7 @@ exports.builder = function(yargs) {
     yargs
         .option("host", {
             group: "Serve",
-            default: "0.0.0.0",
+            default: process.env.IP || "0.0.0.0",
             type: "string",
             description: "listen for HTTP connections on this IP"
         })
@@ -30,6 +30,7 @@ exports.handler = async function(argv) {
     watch(argv, require("./render").handler);
 
     require("live-server").start({
+
         host: argv.host,
         port: argv.port,
         wait: 500,
@@ -51,7 +52,8 @@ async function watch(argv, render) {
         [argv.include], {
             ignored: [
                 /(^|[\/\\])\../,
-                path.dirname(argv.output)
+                path.dirname(argv.output),
+                /.*\.pdf$/
             ],
             ignoreInitial: true
         }
