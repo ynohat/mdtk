@@ -118,6 +118,11 @@ class Resolver {
 
         let absPath = this.normalize(fragmentPath, ref);
 
+        if (!absPath) {
+            console.error("failed to resolve [%s] (in %s)", ref, fragmentPath);
+            return ref;
+        }
+
         // We want a URL that is relative to the include path that
         // contains the asset.
         let root = this.search
