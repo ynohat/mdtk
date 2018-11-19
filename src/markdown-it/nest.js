@@ -90,9 +90,10 @@ function mdtk_nest_explicit(state, startLine, endLine, silent) {
         }
         let token = state.push("div", "div", nesting);
         if (nesting === 1) {
-            params.split(".").filter(cls => !!cls).forEach(cls => {
-                token.attrSet("class", cls)
-            });
+            params.split(".")
+                .filter(cls => !!cls).forEach(cls => {
+                    token.attrJoin("class", cls);
+                });
         }
         state.line++;
         return true;
