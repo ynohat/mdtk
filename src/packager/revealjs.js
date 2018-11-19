@@ -18,7 +18,8 @@ const REVEALJS_DEFAULTS = {
     width: 1400,
     height: 900,
     slideNumber: true,
-    controls: "edges"
+    controls: "edges",
+    theme: "simple"
 };
 
 module.exports = function (body, deps, options) {
@@ -40,7 +41,7 @@ module.exports = function (body, deps, options) {
             <meta name="revealjs-version" content="${REVEALJS_VERSION}">
             <link rel="stylesheet" media="screen" href="${revealjs("css/reveal.css")}">
             <link rel="stylesheet" media="print" href="${revealjs("css/print/pdf.css")}">
-            <link rel="stylesheet" href="${revealjs("css/theme/simple.css")}">
+            <link rel="stylesheet" href="${revealjs("css/theme/" + opts.theme + ".css")}">
             <link rel="stylesheet" href="${revealjs("lib/css/zenburn.css")}">
         </head>
         <body>
