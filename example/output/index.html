@@ -198,16 +198,16 @@
                             <path class="background" d="M0,0h500v160h-500Z" style="fill: none;"></path>
                             <g>
                                 <g class="mark-rect role-mark">
-                                    <path d="M112,136h116v1h-116Z" style="fill: black;"></path>
-                                    <path d="M109,88h165v1h-165Z" style="fill: black;"></path>
-                                    <path d="M79,152h142v1h-142Z" style="fill: black;"></path>
-                                    <path d="M124,104h133v1h-133Z" style="fill: black;"></path>
-                                    <path d="M187,8h186v1h-186Z" style="fill: black;"></path>
-                                    <path d="M146,40h163v1h-163Z" style="fill: black;"></path>
-                                    <path d="M121,56h214v1h-214Z" style="fill: black;"></path>
+                                    <path d="M110,136h116v1h-116Z" style="fill: black;"></path>
+                                    <path d="M112,88h154v1h-154Z" style="fill: black;"></path>
+                                    <path d="M79,152h133v1h-133Z" style="fill: black;"></path>
+                                    <path d="M120,104h133v1h-133Z" style="fill: black;"></path>
+                                    <path d="M196,8h172v1h-172Z" style="fill: black;"></path>
+                                    <path d="M141,40h165v1h-165Z" style="fill: black;"></path>
+                                    <path d="M124,56h207v1h-207Z" style="fill: black;"></path>
                                     <path d="M151,72h109v1h-109Z" style="fill: black;"></path>
-                                    <path d="M89,120h157v1h-157Z" style="fill: black;"></path>
-                                    <path d="M184,24h187v1h-187Z" style="fill: black;"></path>
+                                    <path d="M87,120h162v1h-162Z" style="fill: black;"></path>
+                                    <path d="M178,24h193v1h-193Z" style="fill: black;"></path>
                                 </g>
                                 <g class="mark-symbol role-mark">
                                     <path transform="translate(164,136)" d="M3.1622776601683795,0A3.1622776601683795,3.1622776601683795,0,1,1,-3.1622776601683795,0A3.1622776601683795,3.1622776601683795,0,1,1,3.1622776601683795,0"
@@ -706,7 +706,7 @@ Some content
                     content: attr(data-section);
                     font-size: 0.7em;
                     padding: 5px 10px;
-                    border-bottom: 0.5px solid #fffc;
+                    border-bottom: 0.5px solid grey;
                 }
                 .reveal.overview #section-header,
                 .reveal #section-header:empty {
@@ -717,7 +717,7 @@ Some content
             <script>
                 document.querySelector("body").classList.add("reveal");
                 document.querySelector("body > section:first-child").classList.add("slides");
-                Reveal.initialize({"controls":"edges","progress":true,"history":true,"center":true,"transition":"slide","width":1400,"height":900,"slideNumber":true});
+                Reveal.initialize({"controls":"edges","progress":true,"history":true,"center":false,"transition":"slide","width":1400,"height":900,"slideNumber":true});
 
                 var sectionHeader = document.createElement("header");
                 sectionHeader.id = "section-header";
@@ -737,8 +737,12 @@ Some content
                     })
 
                 function updateSectionHeader() {
-                    var sectionTitle = Reveal.getCurrentSlide().getAttribute("data-header");
-                    sectionHeader.innerText = sectionTitle;
+                    try {
+                        var sectionTitle = Reveal.getCurrentSlide().getAttribute("data-header");
+                        sectionHeader.innerText = sectionTitle;
+                    } catch (e) {
+                        console.error(e);
+                    }
                 }
 
                 Reveal.addEventListener('slidechanged', updateSectionHeader);
