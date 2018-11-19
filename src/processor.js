@@ -21,6 +21,8 @@ function processor(options, deps) {
     // Initialize the Markdown parser
     const parser = require("markdown-it")({
         html: true,
+        linkify: true,
+        typographer: true,
         highlight: function(str, lang) {
             if (lang && hljs.getLanguage(lang)) {
                 try {
