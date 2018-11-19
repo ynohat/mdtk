@@ -17,8 +17,8 @@ try {
                 var vars = {};
                 (argv.varfiles || []).reduce((vars, f) => {
                     debug("assigning --varfile", f);
-                    const {parseAny} = require("./utils");
-                    return Object.assign(vars, parseAny(bytes));
+                    const {parseAny} = require("../src/utils");
+                    return Object.assign(vars, parseAny(f));
                 }, vars);
                 debug("assigning --vars", argv.vars);
                 argv.vars = Object.assign(vars, argv.vars);
