@@ -6,4 +6,4 @@ vars:
     name: Anthony Hogg
     email: anthony@hogg.fr
 revealjs:
-  theme: black
+  theme: simple
