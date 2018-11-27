@@ -36,6 +36,7 @@ module.exports = function (body, deps, options) {
         <head>
             <title>${options.title || "MDTK Document"}</title>
 
+            <meta charset="UTF-8">
             <meta name="generator" content="mdtk">
             <meta name="packager" content="mdtk-revealjs">
             <meta name="revealjs-version" content="${REVEALJS_VERSION}">
