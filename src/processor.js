@@ -61,6 +61,7 @@ function processor(options, deps) {
     });
 
     parser.render = async (md, env) => {
+        env = env || {};
         var tokens = parser.parse.call(parser, md, env);
         await Promise.all(tokens.map(token => token.promise));
         var html = parser.renderer.render(tokens, parser.options, env);
