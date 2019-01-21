@@ -1,6 +1,6 @@
 {
     "name": "mdtk",
-    "version": "0.6.3",
+    "version": "0.6.4",
     "description": "A markdown toolkit to simplify the creation of maintainable, composable documents.",
     "main": "index.js",
     "scripts": {
