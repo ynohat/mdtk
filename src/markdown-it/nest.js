@@ -50,7 +50,15 @@ function mdtk_nest_hr(state) {
 
     function flatten(tree) {
         let tokens = [];
-        tokens.push(new state.Token(tree.name, "section", 1));
+        // HACK :
+        //  revealjs requires the top-level container to be anything but a section,
+        //  because Reveal.isVerticalSlide tests the parent of the current slide's
+        //  nodeName. If it is section, then we are in vertical slide context.
+        //  If the top-level container is a section, then isVerticalSlide always
+        //  returns true, and some tests (including Reveal.isLastSlide) return a
+        //  wrong value. This results in an infinite loop when using Decktape.
+        let nodeName = (tree.depth === 0) ? "div" : "section";
+        tokens.push(new state.Token(tree.name, nodeName, 1));
         tree.children.forEach(child => {
             if (typeof child === "object") {
                 tokens.push(...flatten(child));
@@ -58,7 +66,7 @@ function mdtk_nest_hr(state) {
                 tokens.push(state.tokens[child]);
             }
         });
-        tokens.push(new state.Token(tree.name, "section", -1));
+        tokens.push(new state.Token(tree.name, nodeName, -1));
         return tokens;
     }
     state.tokens = flatten(tree.root);
@@ -124,7 +132,7 @@ class Tree {
     }
 
     push(name) {
-        let branch = { name: name, children: [] };
+        let branch = { name: name, children: [], depth: this.depth };
         if (this.depth) {
             this.top.children.push(branch);
         }

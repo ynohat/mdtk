@@ -84,7 +84,7 @@ module.exports = function (body, deps, options) {
 
             <script>
                 document.querySelector("body").classList.add("reveal");
-                document.querySelector("body > section:first-child").classList.add("slides");
+                document.querySelector("body > div:first-child").classList.add("slides");
                 Reveal.initialize(${JSON.stringify(opts)});
 
                 var sectionHeader = document.createElement("header");
