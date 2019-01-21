@@ -96,12 +96,18 @@ function mdtk_nest_explicit(state, startLine, endLine, silent) {
         if (!params.length) {
             return false;
         }
-        let token = state.push("div", "div", nesting);
-        if (nesting === 1) {
-            params.split(".")
-                .filter(cls => !!cls).forEach(cls => {
-                    token.attrJoin("class", cls);
-                });
+        if (params === "notes") {
+            let token = state.push("aside", "aside", nesting);
+            token.attrJoin("class", "notes");
+        }
+        else {
+            let token = state.push("div", "div", nesting);
+            if (nesting === 1) {
+                params.split(".")
+                    .filter(cls => !!cls).forEach(cls => {
+                        token.attrJoin("class", cls);
+                    });
+            }
         }
         state.line++;
         return true;

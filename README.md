@@ -16,6 +16,7 @@
          * [Code Fences](#code-fences)
          * [Plant UML](#plant-uml)
          * [Vega Visualizations](#vega-visualizations)
+         * [Speaker Notes](#speaker-notes)
       * [Packagers](#packagers)
       * [Best Practices](#best-practices)
       * [TODO](#todo)
@@ -267,6 +268,21 @@ rules as the `@include` [at-rule](#at-rules).
 > all other assets:
 > - to support online rendering (with `vega` signals etc...)
 > - to support adding a "Download data" link to the SVG caption
+
+### Speaker Notes
+
+Speaker Notes can be defined using explicit nesting and `notes` class name. Example use:
+
+```
++notes
+
+Speaker notes go here. You can use markdown syntax:
+
+* item 1
+* item 2
+
+-notes
+```
 
 ## Packagers
 
