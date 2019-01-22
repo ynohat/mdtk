@@ -57,6 +57,7 @@ function mdtk_nest_hr(state) {
         //  If the top-level container is a section, then isVerticalSlide always
         //  returns true, and some tests (including Reveal.isLastSlide) return a
         //  wrong value. This results in an infinite loop when using Decktape.
+        //  More info: https://github.com/astefanutti/decktape/issues/137
         let nodeName = (tree.depth === 0) ? "div" : "section";
         tokens.push(new state.Token(tree.name, nodeName, 1));
         tree.children.forEach(child => {
