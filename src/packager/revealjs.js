@@ -19,7 +19,8 @@ const REVEALJS_DEFAULTS = {
     height: 900,
     slideNumber: true,
     controls: "edges",
-    theme: "simple"
+    theme: "simple",
+    pdfSeparateFragments: false
 };
 
 module.exports = function (body, deps, options) {
