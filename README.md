@@ -17,6 +17,7 @@
          * [Plant UML](#plant-uml)
          * [Vega Visualizations](#vega-visualizations)
          * [Speaker Notes](#speaker-notes)
+         * [Table of Contents](#table-of-contents)
       * [Packagers](#packagers)
       * [Best Practices](#best-practices)
       * [TODO](#todo)
