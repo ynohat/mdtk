@@ -9,7 +9,7 @@
         "build-example": "bin/mdtk.js render --config example/config.yaml example/presentation.md",
         "preversion": "npm run gh-md-toc && npm run build-example",
         "version": "git add package.json package-lock.json example README.md",
-        "postversion": "git push && git push --tags",
+        "postversion": "git push && git push --tags && npm publish",
         "clean": "rm README.md.*"
     },
     "bin": {
