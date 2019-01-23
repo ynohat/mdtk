@@ -284,6 +284,24 @@ Speaker notes go here. You can use markdown syntax:
 -notes
 ```
 
+### Table of Contents
+
+You can add `[[toc]]` where you want the table of contents to be added in your markdown. Example use:
+
+```
+# Heading
+ 
+[[toc]]
+ 
+## Sub heading 1
+Some nice text
+ 
+## Sub heading 2
+Some even nicer text
+```
+
+> Table of Contents works with any packager, however you may want to use it with `typora` in linear documents.
+
 ## Packagers
 
 `mdtk` performs two main tasks:
