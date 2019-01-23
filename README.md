@@ -22,6 +22,7 @@
       * [Best Practices](#best-practices)
       * [TODO](#todo)
       * [Troubleshooting](#troubleshooting)
+      * [Contributors](#contributors)
 
 <!-- Added by: ahogg, at:  -->
 
@@ -348,3 +349,8 @@ And many more things.
 ```bash
 npm install --python=python2.7 mdtk
 ```
+
+## Contributors
+
+* Anthony Hogg / @ynohat
+* Łukasz Czerpak / @lukaszczerpak
