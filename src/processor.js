@@ -35,6 +35,9 @@ function processor(options, deps) {
 
     parser.use(require("markdown-it-attrs"));
 
+    parser.use(require("markdown-it-anchor"));
+    parser.use(require("markdown-it-table-of-contents"));
+
     if (options.plantuml) {
         parser.use(require("markdown-it-plantuml"));
     }

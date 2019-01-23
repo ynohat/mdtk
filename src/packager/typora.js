@@ -41,8 +41,8 @@ module.exports = function (body, deps, options) {
             <meta name="packager" content="mdtk-typora">
             <link rel="stylesheet" href="${typora(opts.theme+".css")}">
         </head>
-        <body>
-            ${body}
+        <body class="typora-export">
+         <div  id="write">${body}</div>
         </body>
     </html>
     `;
