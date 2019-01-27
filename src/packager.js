@@ -49,12 +49,15 @@ exports.write = function (pkg, options) {
 
     output.write(pkg.html);
 
-    (pkg.deps || []).forEach(dep => {
-        const destPath = path.join(outputDir, dep.ref);
-        mkdirp.sync(path.dirname(destPath));
-        debug("copying %s -> %s (satisfying %s)", dep.src, destPath, dep.ref);
-        fs.copyFileSync(dep.src, destPath);
-    });
+    // don't create output dir if we're piping to stdout
+    if (options.output !== "-") {
+        (pkg.deps || []).forEach(dep => {
+            const destPath = path.join(outputDir, dep.ref);
+            mkdirp.sync(path.dirname(destPath));
+            debug("copying %s -> %s (satisfying %s)", dep.src, destPath, dep.ref);
+            fs.copyFileSync(dep.src, destPath);
+        });
+    }
 }
 
 exports.list = function () {
