@@ -46,15 +46,20 @@ exports.handler = async function(argv) {
  */
 async function watch(argv, render) {
     debug("watch");
-    const path = require("path");
     await render(argv);
+
+    const path = require("path");
+    const ignored = [
+        /(^|[\/\\])\../,
+        path.join(path.dirname(argv.output), '**/*'),
+        path.join(path.dirname(argv.output), '*'),
+        /.*\.pdf$/
+    ];
+    debug("watch", "ignore", ignored);
+
     require('chokidar').watch(
-        [argv.include], {
-            ignored: [
-                /(^|[\/\\])\../,
-                path.dirname(argv.output),
-                /.*\.pdf$/
-            ],
+        [argv.include, path.resolve(argv.input)], {
+            ignored: ignored,
             ignoreInitial: true
         }
     ).on('all', async (event, f) => {
