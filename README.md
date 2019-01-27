@@ -62,10 +62,36 @@ npm install -g mdtk
 
 ### Command Line
 
+Show inline documentation:
+
 ```
 mdtk --help
-mdtk render --config mdtk.yaml
-mdtk render --output output/index.html content/index.md
+```
+
+Simple example:
+
+```
+mdtk in.md > out.html
+# Or using pipes
+mdtk < in.md > out.html
+```
+
+Create a presentation:
+
+```
+mdtk --packager revealjs --output output/index.html content/index.md
+```
+
+Most projects will eventually prefer setting all parameters in a configuration file:
+
+```yaml
+packager: revealjs
+input: content/index.md
+output: output/index.html
+```
+
+```
+mdtk --config config.yaml
 ```
 
 `mdtk` supports a number of invocation methods, please refer to `mdtk --help`.
@@ -75,7 +101,7 @@ mdtk render --output output/index.html content/index.md
 `mdtk` can be configured via the command line or a configuration file (referenced
 using `--config`).
 
-The structure of the configuration file mirrors the command line arguments exactly.
+The structure of the configuration file mirrors the command line arguments nearly exactly.
 
 It can be formatted as JSON, YAML or HCL.
 
@@ -311,10 +337,22 @@ Some even nicer text
 - process input markdown
 - package it into a full document template
 
-Currently `mdtk` supports two packagers:
+Currently `mdtk` supports three packagers:
+
+- `null` (default)
+
+`mdtk` will not do any packaging and will write the HTML generated from the markdown without
+wrapping it in a document template.
 
 - `revealjs`: for presentations
+
+`mdtk` will package the generated HTML into a RevealJS presentation.
+
 - `typora`: to generate linear documents
+
+`mdtk` will package the generated HTML into a linear document suitable for handbooks. This packager
+is called `typora` because it is inspired by the tool with the same name and steals the CSS from its
+themes, this does not imply compatibility with typora markdown.
 
 More details will be added as this feature stabilizes.
 
