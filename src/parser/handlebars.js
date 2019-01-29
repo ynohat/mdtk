@@ -1,7 +1,7 @@
 "use strict";
 
 const Handlebars = require("handlebars");
-const debug = require("debug")("mdtk/markdown-it/handlebars");
+const debug = require("debug")("mdtk/parser/handlebars");
 
 /**
  */

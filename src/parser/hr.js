@@ -1,6 +1,16 @@
 "use strict";
 
-const debug = require("debug")("mdtk/markdown-it/hr");
+const debug = require("debug")("mdtk/parser/hr");
+
+const NESTING = {
+    // standard HR notation
+    "---": 2,
+    "***": 2,
+    "___": 2,
+    // extensions
+    "===": 3,
+    "|||": 4
+}
 
 /**
  * Extend default markdown hr syntax to support nesting.
@@ -57,6 +67,7 @@ function mdtk_hr(state, startLine, endLine, silent) {
     token = state.push('mdtk-hr', 'hr', 0);
     token.map = [startLine, state.line];
     token.markup = Array(cnt + 1).join(String.fromCharCode(marker));
+    token.nestingLevel = NESTING[token.markup];
 
     switch (marker) {
         case 0x2A:

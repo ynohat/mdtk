@@ -1,6 +1,7 @@
 "use strict";
 
 const debug = require("debug")("mdtk-cli/render");
+const MDTK = require("../../src/mdtk");
 
 exports.command = "render [input]";
 
@@ -37,17 +38,14 @@ exports.builder = function (yargs) {
 exports.handler = async function (argv) {
     debug("%O", argv);
 
-    const DependencyManager = require("../../src/dependencyManager");
-    const deps = new DependencyManager();
-
-    var {slurp} = require("../../src/utils");
-    var markdown = await slurp(argv.input);
-
-    const processor = require("../../src/processor")(argv, deps);
-    const packager = require("../../src/packager");
-
-    var html = await processor.render(markdown);
-    var pkg = await packager.package(html, deps, argv || {});
-    packager.write(pkg, argv);
+    try {
+        const mdtk = new MDTK(argv);
+        const tokens = await mdtk.tokenize();
+        const html = await mdtk.render(tokens);
+        await mdtk.package(html);
+    } catch (error) {
+        debug(error);
+        process.stderr.write(`${error.message}\n`);
+    }
 };
 

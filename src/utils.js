@@ -18,8 +18,10 @@ exports.slurp = async function slurp(path, encoding) {
             data = "";
         if (path === "-") {
             stream = process.stdin;
-        } else {
+        } else if (typeof path === "string") {
             stream = fs.createReadStream(path);
+        } else if (path.read) {
+            stream = path;
         }
         stream.setEncoding(encoding || "utf8");
         var data = "";

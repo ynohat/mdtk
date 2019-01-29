@@ -2,6 +2,6 @@
 
 const debug = require("debug")("mdtk/packager/null");
 
-module.exports = function (body, deps, options) {
+module.exports = function (mdtk, body) {
     return body;
 };

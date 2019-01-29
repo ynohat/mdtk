@@ -23,12 +23,13 @@ const REVEALJS_DEFAULTS = {
     pdfSeparateFragments: false
 };
 
-module.exports = function (body, deps, options) {
+module.exports = function (mdtk, body) {
 
     debug(REVEALJS_PATH);
 
+    const options = mdtk.options;
     const opts = Object.assign({}, REVEALJS_DEFAULTS, options.revealjs);
-    const revealjs = deps.root(REVEALJS_PATH, "revealjs");
+    const revealjs = mdtk.dependencyManager.root(REVEALJS_PATH, "revealjs");
 
     revealjs("plugin/notes/notes.html");
 
@@ -47,7 +48,11 @@ module.exports = function (body, deps, options) {
             <link rel="stylesheet" href="${revealjs("lib/css/zenburn.css")}">
         </head>
         <body>
-            ${body}
+            <div class="reveal">
+                <div class="slides">
+                    ${body}
+                </div>
+            </div>
 
             <script src="${revealjs("lib/js/classList.js")}"></script>
             <script src="${revealjs("lib/js/head.min.js")}"></script>

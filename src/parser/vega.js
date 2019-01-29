@@ -3,11 +3,11 @@
 //
 'use strict';
 
-const debug = require("debug")("mdtk/markdown-it/vega");
+const debug = require("debug")("mdtk/parser/vega");
 
 module.exports = function vega(md, options) {
 
-    debug("add");
+    debug("init");
 
     md.block.ruler.before(
         'fence',
@@ -42,57 +42,6 @@ module.exports = function vega(md, options) {
     // md.renderer.rules.vega_vis = render;
 };
 
-// FIXME
-// Because the vega/vega-lite spec can reference external data,
-// we need to be able to resolve it so that it is added to the
-// output assets.
-// For all other tokens until Vega, the `meta/resolver` owned the
-// logic, which made sense because it was handling standard markdown
-// or HTML features.
-// Here it feels like it makes more sense to keep the spec parsing
-// logic local to the vega module, so the vega block parser simply
-// adds a resolve function to the token, which gets called at the
-// very end by meta/resolver.
-// This is quite hacky, we certainly need a better approach.
-function resolve(token, resolver) {
-    if (token.spec) {
-        var signals = {};
-        function walk(spec) {
-            Object.keys(spec)
-                .forEach(k => {
-                    let v = spec[k];
-                    if (k === "signals") {
-                        v.forEach(signal => {
-                            signals[signal.name] = signal;
-                        });
-                    } else if (k === "url") {
-                        if (typeof v === "object") {
-                            if (v.signal && signals[v.signal]) {
-                                let signal = signals[v.signal];
-                                if (signal.value) {
-                                    spec.url = signal.value;
-                                }
-                            }
-                        }
-                        spec.url = resolver.normalize(token.file, spec.url);
-                    } else if (v && typeof v === "object") {
-                        walk(v);
-                    }
-                });
-        }
-        walk(token.spec);
-    }
-
-    // Now that we've normalized all the data urls, we can
-    // start the actual render process.
-    // We store the promise on the token directly, this gets
-    // picked up between parse and render in ../processor
-    token.promise = token.render(token.spec)
-        .then(svg => {
-            token.content = svg;
-        });
-}
-
 async function renderVega(spec) {
     debug("vega spec %O", spec);
     const vega = require("vega");
@@ -105,7 +54,6 @@ async function renderVegaLite(spec) {
     const vegaLite = require("vega-lite");
     return renderVega(vegaLite.compile(spec).spec);
 }
-
 
 function vegaLikePlugin(md, options) {
     var {
@@ -209,8 +157,9 @@ function vegaLikePlugin(md, options) {
         token.map = [startLine, nextLine];
         token.markup = markup;
 
-        token.render = render;
-        token.resolve = resolve;
+        token.prerender = async function () {
+            this.content = await render(this.spec);
+        };
 
         state.line = nextLine + (autoClosed ? 1 : 0);
 

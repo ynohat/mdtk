@@ -43,9 +43,9 @@ It supports:
 - adding attributes and classes to elements
 - syntax highlighting
 - vega visualizations
+- plantum diagrams
 
 A complete document is built using a packager, among which `revealjs` and `typora`.
-
 
 ## Requirements
 
@@ -120,16 +120,7 @@ file, *even if the option is repeatable*.
 
 Variables can be provided in different ways:
 
-- configuration file
-
-```yaml
-vars:
-    foo:
-        baz: bar
-        biz: laz
-```
-
-- command line (`--vars`)
+- via the command line (`--vars`)
 
 ```
 mdtk render --vars.presenter.name John <<EOF
@@ -137,24 +128,52 @@ My name is {{ presenter.name }}
 EOF
 ```
 
-- varfiles
+- using varfiles (`--varfiles`)
 
-Variables can be defined in separate files.
+```
+cat <<EOF > vars.json
+{
+    "presenter": {
+        "name": "John"
+    }
+}
+EOF
+
+mdtk render --varfiles vars.json <<EOF
+My name is {{ presenter.name }}
+EOF
+```
+
+Just like the configuration file, varfiles can be provided as JSON, YAML or HCL.
+
+- using corresponding properties in the configuration file
+
+```yaml
+vars:
+    foo:
+        baz: bar
+        biz: laz
+varfiles:
+    - vars.json
+```
 
 ### at-rules
+
+`at-rules` are a series of syntax extension that follow the same generic format:
+
+`@rule-name(arg1, ...argN)`
+
+They can span multiple lines. If passing a value containing a comma or a closing parenthesis is required, the value may be enclosed in double quotes (`"`). Alternatively, any character may be quoted using a "\\".
 
 - `@meta(name, content)`
 
 Inserts a `<meta>` tag with the specified name and content.
 
-> A current limitation is that the name and content MUST NOT contain commas, because
-> of the rudimentary parsing logic for the at-rule parameters.
-
 - `@include(path/to/file.md)`
 
 Inserts the contents of the given file in place. The path can be absolute or relative.
 If it is relative, it will be resolved relative to the including fragment, or to the
-`--include` arguments.
+`--include` arguments. The path can include interpolated variables, e.g. `@include(path/to/{{ master }})`.
 
 - `@css(path/to/file.css)`
 
@@ -204,25 +223,23 @@ Produces the following HTML:
 
 ```
 <section>
+    Section 1
+</section>
+<section>
     <section>
-        Section 1
+        Section 2.a
     </section>
     <section>
         <section>
-            Section 2.a
+            Section 2.b.a
         </section>
         <section>
-            <section>
-                Section 2.b.a
-            </section>
-            <section>
-                Section 2.b.b
-            </section>
+            Section 2.b.b
         </section>
     </section>
-    <section>
-        Section 3    
-    </section>
+</section>
+<section>
+    Section 3    
 </section>
 ```
 
@@ -367,7 +384,7 @@ More details will be added as this feature stabilizes.
 ## TODO
 
 - [ ] `@css`: resolve `@import`
-- [ ] `@xxx`: better argument parsing (allow commas)
+- [x] `@xxx`: better argument parsing (allow commas)
 - [ ] `tests`: fix the tests and improve coverage
 - [ ] `packager`: make the highlight.js theme configurable
 - [ ] `ext`: local plantuml server
