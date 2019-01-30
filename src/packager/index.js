@@ -23,13 +23,14 @@ class Packager {
         const packagerPath = require.resolve(`./${options.packager}`);
         if (!packagerPath) {
             debug("packager %s not found", options.packager);
-            throw new Exception("Unknown packager");
+            throw new Error("Unknown packager");
         }
 
         return require(packagerPath);
     }
 
     async write(html) {
+        debug("write", this.mdtk.options.packager, this.mdtk.options.output);
         var concretePackager = this.getConcretePackager();
         html = concretePackager(this.mdtk, html);
 
@@ -46,7 +47,8 @@ class Packager {
 
         await new Promise((resolve, reject) => {
             output.write(html, err => {
-                if (err) throw new Error("failed to write packaged output");
+                if (err) return reject("failed to write packaged output");
+                resolve();
             });
         });
     
@@ -62,6 +64,7 @@ class Packager {
     }
 
     list() {
+        debug("list");
         const pat = /^(.+)\.js$/;
         return fs.readdirSync(require.resolve("./packager"))
             .filter(name => pat.test(name))

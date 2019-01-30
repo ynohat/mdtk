@@ -89,8 +89,6 @@ module.exports = function (mdtk, body) {
             </style>
 
             <script>
-                document.querySelector("body").classList.add("reveal");
-                document.querySelector("body > div:first-child").classList.add("slides");
                 Reveal.initialize(${JSON.stringify(opts)});
 
                 var sectionHeader = document.createElement("header");

@@ -38,6 +38,10 @@ class MDTK {
         this.renderer = this.parser.renderer;
     }
 
+    get dependencies() {
+        return this.dependencyManager.deps;
+    }
+
     resolve(relPath) {
         let { resolve } = require("./utils");
         return resolve(relPath, ...this.options.include);
