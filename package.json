@@ -22,7 +22,7 @@
         "chokidar": "^2.0.4",
         "css": "^2.2.4",
         "debug": "^4.1.0",
-        "handlebars": "^4.0.12",
+        "handlebars": "^4.1.0",
         "hcl": "^0.1.0",
         "hcl-to-json": "^0.1.1",
         "highlight.js": "^9.13.1",
