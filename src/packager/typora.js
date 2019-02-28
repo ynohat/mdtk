@@ -15,12 +15,12 @@ const TYPORA_DEFAULTS = {
     theme: "pixyll"
 };
 
-module.exports = function (body, deps, options) {
-
+module.exports = function (mdtk, body) {
     debug(TYPORA_PATH);
 
+    const options = mdtk.options;
     const opts = Object.assign({}, TYPORA_DEFAULTS, options.typora);
-    const typora = deps.root(TYPORA_PATH, "typora");
+    const typora = mdtk.dependencyManager.root(TYPORA_PATH, "typora");
 
     var assetsDir = path.join(TYPORA_PATH, opts.theme);
     debug("assetsDir: %s", assetsDir);
@@ -29,7 +29,6 @@ module.exports = function (body, deps, options) {
             typora(`${opts.theme}/${f}`);
         });
     }
-
 
     return `
     <html lang="${options.lang || "en-US"}">
