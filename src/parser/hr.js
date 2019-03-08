@@ -55,6 +55,7 @@ function mdtk_hr(state, startLine, endLine, silent) {
     cnt = 1;
     while (pos < max) {
         ch = state.src.charCodeAt(pos++);
+        if (ch !== marker && !isSpace(ch)) { return false; }
         if (ch === marker) { cnt++; }
     }
 
