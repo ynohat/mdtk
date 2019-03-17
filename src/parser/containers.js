@@ -11,7 +11,6 @@ const debug = require("debug")("mdtk/parser/containers");
 module.exports = function nest(md, options) {
     debug("init");
 
-    md.block.ruler.disable("hr");
     md.block.ruler.before("fence", "mdtk_containers", mdtk_containers);
 };
 
