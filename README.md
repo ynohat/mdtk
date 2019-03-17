@@ -250,11 +250,9 @@ are best served by an explicit approach.
 
 ```
 +columns
-
 - eenie
 - meenie
 - ...
-
 -columns
 ```
 
@@ -269,8 +267,6 @@ Will render to:
     </ul>
 </div>
 ```
-
-An empty line MUST separate the opening/closing markup from the contents.
 
 > - Containers can be nested
 > - Indenting the contents of a container is not supported

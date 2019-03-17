@@ -5,13 +5,13 @@ const debug = require("debug")("mdtk/parser/containers");
 /**
  * Markdown-it extension that defines semantics for nestable div containers.
  * 
- * @param {*} md 
+ * @param {markdownit} md 
  * @param {*} options
  */
 module.exports = function nest(md, options) {
     debug("init");
 
-    md.block.ruler.before("fence", "mdtk_containers", mdtk_containers);
+    md.block.ruler.before("fence", "mdtk_containers", mdtk_containers, {alt: [ 'paragraph' ]});
 };
 
 function mdtk_containers(state, startLine, endLine, silent) {
@@ -36,6 +36,9 @@ function mdtk_containers(state, startLine, endLine, silent) {
         }
         if (!params.length) {
             return false;
+        }
+        if (silent) {
+            return true;
         }
         if (params === "notes") {
             let token = state.push("aside", "aside", nesting);
