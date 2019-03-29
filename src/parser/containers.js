@@ -41,17 +41,20 @@ function mdtk_containers(state, startLine, endLine, silent) {
             return true;
         }
         if (params === "notes") {
-            let token = state.push("aside", "aside", nesting);
+            token = state.push("aside", "aside", nesting);
             token.attrJoin("class", "notes");
         }
         else {
-            let token = state.push("div", "div", nesting);
+            token = state.push("div", "div", nesting);
             if (nesting === 1) {
                 params.split(".")
                     .filter(cls => !!cls).forEach(cls => {
                         token.attrJoin("class", cls);
                     });
             }
+        }
+        if (token) {
+            token.map = [startLine, state.line];
         }
         state.line++;
         return true;

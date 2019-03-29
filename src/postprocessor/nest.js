@@ -10,12 +10,12 @@ function nest(mdtk, tokens) {
         if (token.type === "mdtk-hr") {
             const nesting = token.nestingLevel;
             while (tree.depth < nesting) {
-                tree.nest(`level${tree.depth}`);
+                tree.nest(`level${tree.depth}`, token.src, token.map[1]);
             }
             while (tree.depth >= nesting) {
                 tree.pop();
             }
-            tree.push(`level${tree.depth}`)
+            tree.push(`level${tree.depth}`, token.src, token.map[1])
         } else {
             tree.append(idx);
         }
@@ -38,6 +38,8 @@ function flatten(branch, tokens) {
     // don't create a root section
     if (branch.depth > 0) {
         openTag = new Token("section_open", "section", 1);
+        openTag.attrSet("data-src-path", branch.src);
+        openTag.attrSet("data-src-line", branch.line);
         openTag.src = branch.src;
         result.push(openTag);
     }
@@ -77,8 +79,8 @@ class Tree {
         return this.stack.length;
     }
 
-    push(name, src) {
-        let branch = { name: name, src: src, children: [], depth: this.depth };
+    push(name, src, line) {
+        let branch = { name: name, src: src, line: line, children: [], depth: this.depth };
         if (this.depth) {
             this.top.children.push(branch);
         }
@@ -90,10 +92,10 @@ class Tree {
     }
 
     // (LX: [1, 2, 3]) => (LX: [LY: [1, 2, 3]])
-    nest(name) {
+    nest(name, src, line) {
         let children = this.getChildren();
         this.clearChildren();
-        this.push(name);
+        this.push(name, src, line);
         this.append(...children);
         return this;
     }
