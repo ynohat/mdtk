@@ -25,7 +25,8 @@ class MDTK {
         if (this.options.input === "-") {
             this.options.include.unshift(process.cwd());
         } else {
-            let inputDir = path.dirname(path.resolve(this.options.input));
+            this.options.input = path.resolve(this.options.input);
+            let inputDir = path.dirname(this.options.input);
             this.options.include.unshift(inputDir);
         }
 

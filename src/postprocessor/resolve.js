@@ -60,10 +60,10 @@ class Resolver {
     }
 
     resolveKnownAttributes(token) {
-        var bkg = token.attrGet("data-background");
+        var bkg = token.attrGet("data-background-image");
         if (bkg && token.src) {
             bkg = this._resolve(token.src, bkg);
-            token.attrSet("data-background", bkg);
+            token.attrSet("data-background-image", bkg);
         }
     }
 

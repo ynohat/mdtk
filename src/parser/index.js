@@ -11,7 +11,6 @@ module.exports = function (mdtk) {
     });
 
     md.use(require("./atrule"));
-    md.use(require("./srcmap"));
 
     md.use(require("markdown-it-attrs"));
     md.use(require("markdown-it-anchor"));
@@ -35,6 +34,8 @@ module.exports = function (mdtk) {
     if (options.containers) {
         md.use(require("./containers"));
     }
+
+    md.use(require("./srcmap"));
 
     return md;
 };

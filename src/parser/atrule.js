@@ -79,7 +79,7 @@ function mdtk_atrule_parse(state, startLine, endLine, silent) {
 
     state.line = startLine + rule.endLine;
 
-    token = state.push(`mdtk-${rule.name}`, '', 0);
+    token = state.push(`mdtk-${rule.name}`, `mdtk-${rule.name}`, 0);
     token.args = rule.args;
     token.map = [startLine, state.line];
     token.content = state.getLines(startLine, state.line, rule.endOffset, true);

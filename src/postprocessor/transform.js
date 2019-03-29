@@ -34,7 +34,7 @@ class Transformer {
     }
 
     transform(token, idx) {
-        debug(token, ...arguments);
+        // debug(token, ...arguments);
         const handler = this.handlers[token.type];
         if (handler) {
             handler(token, idx, ...token.args);
@@ -81,7 +81,8 @@ class Transformer {
     atruleSection(token, idx, k, v) {
         debug(token.type, ...arguments);
         var sectionOpenToken = null;
-        for (let j = idx-1; j>0; j--) {
+
+        for (let j = idx-1; j>=0; j--) {
             let t = this.tokens[j];
             if (t.tag === "section" && t.nesting === 1) {
                 sectionOpenToken = t;
