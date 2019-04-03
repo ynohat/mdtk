@@ -18,6 +18,7 @@
          * [Vega Visualizations](#vega-visualizations)
          * [Speaker Notes](#speaker-notes)
          * [Table of Contents](#table-of-contents)
+         * [Video](#video)
       * [Packagers](#packagers)
       * [Best Practices](#best-practices)
       * [TODO](#todo)
