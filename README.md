@@ -77,13 +77,19 @@ mdtk in.md > out.html
 mdtk < in.md > out.html
 ```
 
-Create a presentation:
+Bootstrap a new project:
+
+```bash
+mdtk bootstrap my-mdtk-project
+```
+
+Render the project:
 
 ```
-mdtk --packager revealjs --output output/index.html content/index.md
+mdtk --config my-mdtk-project/mdtk.yaml
 ```
 
-Most projects will eventually prefer setting all parameters in a configuration file:
+Most projects will eventually prefer setting all parameters in the configuration file:
 
 ```yaml
 packager: revealjs
