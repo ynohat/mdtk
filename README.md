@@ -343,6 +343,19 @@ Some even nicer text
 
 > Table of Contents works with any packager, however you may want to use it with `typora` in linear documents.
 
+### Video
+
+Experimental video support is provided via [markdown-it-html5-media](https://github.com/eloquence/markdown-it-html5-media).
+
+Videos use the image syntax. The player controls are disabled and autoplay is off, there is custom code within
+the revealjs packager to start playback when a fragment containing a video is shown.
+
+```
++fragment
+![descriptive text](video.mp4)
+-fragment
+```
+
 ## Packagers
 
 `mdtk` performs two main tasks:

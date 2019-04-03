@@ -1,5 +1,6 @@
 "use strict";
 
+const cheerio = require("cheerio");
 const path = require("path");
 const debug = require("debug")("mdtk/markdown-it/postprocess/resolve");
 const {resolve} = require("../utils");
@@ -49,6 +50,8 @@ class Resolver {
         debug("resolveToken", token);
         if (token.tag === "img") {
             this.resolveImgToken(token);
+        } else if (token.type === "video") {
+            this.resolveVideoToken(token);
         } else if (token.type === "css") {
             this.resolveLinkToken(token);
         } else if (token.type === "script_open") {
@@ -68,6 +71,12 @@ class Resolver {
     }
 
     resolveImgToken(token) {
+        let src = token.attrGet("src");
+        let relSrc = this._resolve(token.src, src);
+        token.attrSet("src", relSrc);
+    }
+
+    resolveVideoToken(token) {
         let src = token.attrGet("src");
         let relSrc = this._resolve(token.src, src);
         token.attrSet("src", relSrc);

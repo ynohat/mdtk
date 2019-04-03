@@ -15,6 +15,9 @@ module.exports = function (mdtk) {
     md.use(require("markdown-it-attrs"));
     md.use(require("markdown-it-anchor"));
     md.use(require("markdown-it-table-of-contents"));
+    md.use(require("markdown-it-html5-media").html5Media, {
+        videoAttrs: ''
+    });
 
     if (options.plantuml) {
         md.use(require("markdown-it-plantuml"));

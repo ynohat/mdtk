@@ -119,6 +119,21 @@ module.exports = function (mdtk, body) {
 
                 Reveal.addEventListener('slidechanged', updateSectionHeader);
                 Reveal.addEventListener('ready', updateSectionHeader);
+
+                /* Autoplay videos in fragments */
+                Reveal.addEventListener( 'fragmentshown', function( event ) {
+                    var video = event.fragment.querySelector( 'video' );
+                     if( video ) {
+                        video.play();
+                    }
+                  } );
+                Reveal.addEventListener( 'fragmenthidden', function( event ) {
+                    var audio = event.fragment.querySelector( 'video' );
+                        if( video ) {
+                        video.pause();
+                    }
+                } );
+
             </script>
             <script src="${revealjs("plugin/zoom-js/zoom.js")}"></script>
             <script src="${revealjs("plugin/notes/notes.js")}"></script>
