@@ -153,6 +153,33 @@ EOF
 
 Just like the configuration file, varfiles can be provided as JSON, YAML or HCL.
 
+- using envfiles (`--envfiles`)
+
+```
+cat <<EOF > envfile
+PRESENTER_NAME=John
+EOF
+
+mdtk render --envfiles envfile <<EOF
+My name is {{ PRESENTER_NAME }}
+EOF
+```
+
+> Currently substitutions in variable values are not supported. The following won't work:
+>
+> ```
+> PORT=80
+> URL=http://localhost:$PORT
+> ```
+>
+> Instead, use:
+>
+> ```
+> PORT=80
+> URL=http://localhost:80
+> ```
+
+
 - using corresponding properties in the configuration file
 
 ```yaml

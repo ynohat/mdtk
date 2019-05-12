@@ -38,6 +38,16 @@ module.exports = {
         },
         description: "Specify markdown include directories"
     },
+    envfiles: {
+        group: "Template",
+        global: true,
+        default: [],
+        type: "array",
+        coerce: paths => {
+            return paths.map(p => path.resolve(p))
+        },
+        description: "Load variable substitutions from a shell environment file."
+    },
     varfiles: {
         group: "Template",
         global: true,
