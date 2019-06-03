@@ -1,6 +1,9 @@
 "use strict";
 
 const Handlebars = require("handlebars");
+const helpers = require("handlebars-helpers")({
+    handlebars: Handlebars
+});
 const debug = require("debug")("mdtk/parser/handlebars");
 
 /**
