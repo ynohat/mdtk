@@ -5,6 +5,7 @@ const path = require("path");
 const DependencyManager = require("./dependencyManager");
 const Packager = require("./packager");
 const { slurp } = require("./utils");
+const { fstat } = require("fs");
 
 class MDTK {
     constructor(options, dependencyManager = null) {
@@ -102,6 +103,22 @@ async function tokenizeFragment() {
             } catch (error) {
                 debug(error);
                 throw new Error(`failed to include ${token.args[0]} from ${this.options.input}:${token.map[0]+1}`);
+            }
+        } else if (token.type === "mdtk-code") {
+            try {
+                let codePath = this.resolve(token.args[0]);
+                let codeSrc = require("fs").readFileSync(codePath, "utf8");
+                let lang = token.args[1];
+                token.type = "code_block";
+                const hljs = require("highlight.js");
+                try {
+                    token.content = hljs.highlight(lang, codeSrc).value;
+                } catch (_) {
+                    token.content = codeSrc;
+                }
+            } catch (error) {
+                debug(error);
+                throw new Error(`failed to include @code ${token.args[0]} from ${this.options.input}:${token.map[0]+1}`);
             }
         }
     }
