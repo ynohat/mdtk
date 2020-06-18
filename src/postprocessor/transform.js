@@ -1,6 +1,7 @@
 "use strict";
 
 const debug = require("debug")("mdtk/markdown-it/postprocessor/transform");
+const Token = require("markdown-it/lib/token");
 
 module.exports = function (mdtk, tokens) {
     debug("start");
@@ -74,7 +75,7 @@ class Transformer {
         token.attrs = [];
         token.attrSet("src", src);
         token.hidden = false;
-        var closing = new this.state.Token("script_close", "script", -1);
+        var closing = new Token("script_close", "script", -1);
         this.tokens.splice(idx, 1, token, closing);
     }
 
