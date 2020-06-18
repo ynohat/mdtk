@@ -109,13 +109,9 @@ async function tokenizeFragment() {
                 let codePath = this.resolve(token.args[0]);
                 let codeSrc = require("fs").readFileSync(codePath, "utf8");
                 let lang = token.args[1];
-                token.type = "code_block";
-                const hljs = require("highlight.js");
-                try {
-                    token.content = hljs.highlight(lang, codeSrc).value;
-                } catch (_) {
-                    token.content = codeSrc;
-                }
+                token.type = "fence";
+                token.content = codeSrc;
+                token.info = lang;
             } catch (error) {
                 debug(error);
                 throw new Error(`failed to include @code ${token.args[0]} from ${this.options.input}:${token.map[0]+1}`);
