@@ -209,6 +209,13 @@ Inserts the contents of the given file in place. The path can be absolute or rel
 If it is relative, it will be resolved relative to the including fragment, or to the
 `--include` arguments. The path can include interpolated variables, e.g. `@include(path/to/{{ master }})`.
 
+- `@code(path/to/code.js)`
+- `@code(path/to/code.js, js)`
+
+Similar to `@include`, but translates to a highlighted code block in the presentation, using the contents
+of the given file.
+The second argument should be the highlight.js language. If omitted, the file is not highlighted.
+
 - `@css(path/to/file.css)`
 
 Inserts a `<link rel="stylesheet">` tag. The CSS file is resolved using exactly the same
