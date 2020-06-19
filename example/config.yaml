@@ -1,3 +1,5 @@
+input: presentation.md
+packager: revealjs
 output: output/index.html
 include:
   - .
