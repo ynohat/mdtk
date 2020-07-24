@@ -55,9 +55,9 @@ class Packager {
         // don't package dependencies if we're piping to stdout
         if (options.output !== "-") {
             this.mdtk.dependencies.forEach(dep => {
-                const destPath = path.join(outputDir, dep.ref);
+                const destPath = path.join(outputDir, dep.dest);
                 mkdirp.sync(path.dirname(destPath));
-                debug("copying %s -> %s (satisfying %s)", dep.src, destPath, dep.ref);
+                debug("copying %s -> %s (satisfying %s)", dep.src, destPath, dep.href);
                 fs.copyFileSync(dep.src, destPath);
             });
         }

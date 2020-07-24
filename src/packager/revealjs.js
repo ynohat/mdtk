@@ -42,10 +42,10 @@ module.exports = function (mdtk, body) {
             <meta name="generator" content="mdtk">
             <meta name="packager" content="mdtk-revealjs">
             <meta name="revealjs-version" content="${REVEALJS_VERSION}">
-            <link rel="stylesheet" media="screen" href="${revealjs("css/reveal.css")}">
-            <link rel="stylesheet" media="print" href="${revealjs("css/print/pdf.css")}">
-            <link rel="stylesheet" href="${revealjs("css/theme/" + opts.theme + ".css")}">
-            <link rel="stylesheet" href="${revealjs("lib/css/zenburn.css")}">
+            <link rel="stylesheet" media="screen" href="${revealjs("css/reveal.css").href}">
+            <link rel="stylesheet" media="print" href="${revealjs("css/print/pdf.css").href}">
+            <link rel="stylesheet" href="${revealjs("css/theme/" + opts.theme + ".css").href}">
+            <link rel="stylesheet" href="${revealjs("lib/css/zenburn.css").href}">
         </head>
         <body>
             <div class="reveal">
@@ -54,9 +54,9 @@ module.exports = function (mdtk, body) {
                 </div>
             </div>
 
-            <script src="${revealjs("lib/js/classList.js")}"></script>
-            <script src="${revealjs("lib/js/head.min.js")}"></script>
-            <script src="${revealjs("js/reveal.js")}"></script>
+            <script src="${revealjs("lib/js/classList.js").href}"></script>
+            <script src="${revealjs("lib/js/head.min.js").href}"></script>
+            <script src="${revealjs("js/reveal.js").href}"></script>
 
             <style>
                 /**
@@ -135,8 +135,8 @@ module.exports = function (mdtk, body) {
                 } );
 
             </script>
-            <script src="${revealjs("plugin/zoom-js/zoom.js")}"></script>
-            <script src="${revealjs("plugin/notes/notes.js")}"></script>
+            <script src="${revealjs("plugin/zoom-js/zoom.js").href}"></script>
+            <script src="${revealjs("plugin/notes/notes.js").href}"></script>
 
         </body>
     </html>

@@ -57,6 +57,34 @@ exports.resolve = function resolve(rel, ...search) {
 };
 
 /**
+ * Provided with a path, returns it in native format.
+ * On POSIX systems, this is a noop. On Windows:
+ * 
+ * a/b/c -> a\b\c
+ */
+exports.posixToNative = function posixToNative(p) {
+    const path = require("path");
+    if (path.sep === path.win32.sep) {
+        p = p.split(path.posix.sep).join(path.win32.sep);
+    }
+    return p;
+};
+
+/**
+ * Provided with a path, returns it in native format.
+ * On POSIX systems, this is a noop. On Windows:
+ * 
+ * a\b\c -> a/b/c
+ */
+exports.nativeToPosix = function nativeToPosix(p) {
+    const path = require("path");
+    if (path.sep === path.win32.sep) {
+        p = p.split(path.win32.sep).join(path.posix.sep);
+    }
+    return p;
+};
+
+/**
  * Parse a variety of configuration file formats into an Object.
  * 
  * Supports:

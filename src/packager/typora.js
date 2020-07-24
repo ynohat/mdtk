@@ -38,7 +38,7 @@ module.exports = function (mdtk, body) {
             <meta charset="UTF-8">
             <meta name="generator" content="mdtk">
             <meta name="packager" content="mdtk-typora">
-            <link rel="stylesheet" href="${typora(opts.theme+".css")}">
+            <link rel="stylesheet" href="${typora(opts.theme+".css").href}">
         </head>
         <body class="typora-export">
          <div  id="write">${body}</div>

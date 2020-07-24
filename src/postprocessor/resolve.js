@@ -3,7 +3,7 @@
 const cheerio = require("cheerio");
 const path = require("path");
 const debug = require("debug")("mdtk/markdown-it/postprocess/resolve");
-const {resolve} = require("../utils");
+const {resolve, posixToNative} = require("../utils");
 
 const IS_URL = /^[^:]+:\/\//;
 
@@ -65,36 +65,36 @@ class Resolver {
     resolveKnownAttributes(token) {
         var bkg = token.attrGet("data-background-image");
         if (bkg && token.src) {
-            bkg = this._resolve(token.src, bkg);
+            bkg = this.getHref(token.src, bkg);
             token.attrSet("data-background-image", bkg);
         }
     }
 
     resolveImgToken(token) {
         let src = token.attrGet("src");
-        let relSrc = this._resolve(token.src, src);
+        let relSrc = this.getHref(token.src, src);
         token.attrSet("src", relSrc);
     }
 
     resolveVideoToken(token) {
         let src = token.attrGet("src");
-        let relSrc = this._resolve(token.src, src);
+        let relSrc = this.getHref(token.src, src);
         token.attrSet("src", relSrc);
     }
 
     resolveLinkToken(token) {
         let href = token.attrGet("href");
-        let relHref = this._resolve(token.src, href);
+        let relHref = this.getHref(token.src, href);
         token.attrSet("href", relHref);
 
         let rel = token.attrGet("rel");
         if (rel === "stylesheet") {
             const fs = require("fs");
-            const absHref = this.normalize(token.src, href);
+            const absHref = this.getAbsPath(token.src, href);
             if (absHref) {
                 var contents = fs.readFileSync(absHref, "utf-8");
                 contents.replace(/url\(([^)]+)\)/g, (_, ref) => {
-                    return this._resolve(absHref, ref);
+                    return this.getHref(absHref, ref);
                 });
             }
         }
@@ -102,7 +102,7 @@ class Resolver {
 
     resolveScriptToken(token) {
         let src = token.attrGet("src");
-        let relSrc = this._resolve(token.src, src);
+        let relSrc = this.getHref(token.src, src);
         token.attrSet("src", relSrc);
     }
 
@@ -126,7 +126,7 @@ class Resolver {
                                     }
                                 }
                             }
-                            spec.url = this.normalize(token.src, spec.url);
+                            spec.url = this.getAbsPath(token.src, spec.url);
                         } else if (v && typeof v === "object") {
                             walk.call(this, v);
                         }
@@ -136,7 +136,7 @@ class Resolver {
         }
     }
 
-    _resolve(fragmentPath, ref) {
+    getHref(fragmentPath, ref) {
         debug("resolve", fragmentPath, ref);
 
         if (IS_URL.test(ref)) {
@@ -147,25 +147,25 @@ class Resolver {
             return ref;
         }
 
-        let absPath = this.normalize(fragmentPath, ref);
+        let absPath = this.getAbsPath(fragmentPath, ref);
 
         if (!absPath) {
             console.error("failed to resolve [%s] (in %s)", ref, fragmentPath);
             return ref;
         }
 
-        // We want a URL that is relative to the include path that
+        // We want a path relative to the include path that
         // contains the asset.
         let root = this.search
             .filter(dir => absPath.startsWith(dir))
             .shift();
         let relPath = path.relative(root, absPath);
 
-        return this.deps.root(root, "assets")(relPath);
+        return this.deps.root(root, "assets")(relPath).href;
     }
 
-    normalize(fragmentPath, ref) {
-        debug("normalize", fragmentPath, ref);
+    getAbsPath(fragmentPath, ref) {
+        debug("getAbsPath", fragmentPath, ref);
         if (IS_URL.test(ref)) {
             return ref;
         }
@@ -173,6 +173,11 @@ class Resolver {
         if (path.isAbsolute(ref)) {
             return ref;
         }
+
+        // relative asset references should always be provided in POSIX
+        // but we need to store them in native format to avoid issues with
+        // FS operations on windows
+        ref = posixToNative(ref);
 
         let fragmentDir = path.dirname(fragmentPath);
         return resolve(ref, fragmentDir, ...this.search);
