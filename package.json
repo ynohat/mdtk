@@ -28,7 +28,7 @@
         "handlebars-helpers": "^0.10.0",
         "hcl": "^0.1.0",
         "hcl-to-json": "^0.1.1",
-        "highlight.js": "^9.13.1",
+        "highlight.js": "^10.4.1",
         "html": "^1.0.0",
         "live-server": "^1.2.1",
         "markdown-it": "^8.4.2",
