@@ -31,7 +31,7 @@
         "highlight.js": "^10.4.1",
         "html": "^1.0.0",
         "live-server": "^1.2.1",
-        "markdown-it": "^8.4.2",
+        "markdown-it": "^12.3.2",
         "markdown-it-anchor": "^5.0.2",
         "markdown-it-attrs": "^2.3.2",
         "markdown-it-checkboxes": "^1.0.0",
